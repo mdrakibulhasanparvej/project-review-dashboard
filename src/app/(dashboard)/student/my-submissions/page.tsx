@@ -26,7 +26,10 @@ export default function MySubmissionsPage() {
             Track the review status and read the feedback your mentor left.
           </p>
         </div>
-        <Button render={<Link href="/student/submissions" />}>
+        <Button
+          nativeButton={false}
+          render={<Link href="/student/submissions" />}
+        >
           <IconSend aria-hidden="true" />
           Submit another project
         </Button>

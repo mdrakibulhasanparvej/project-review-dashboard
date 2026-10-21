@@ -29,7 +29,12 @@ export default function AccessDenied() {
           think this is a mistake, contact your administrator.
         </p>
 
-        <Button className="mt-8" size="lg" render={<Link href="/login" />}>
+        <Button
+          className="mt-8"
+          size="lg"
+          nativeButton={false}
+          render={<Link href="/login" />}
+        >
           <IconArrowLeft aria-hidden="true" />
           Return to Login
         </Button>
