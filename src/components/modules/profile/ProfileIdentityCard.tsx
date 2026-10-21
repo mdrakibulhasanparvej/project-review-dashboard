@@ -2,7 +2,7 @@
 
 import { IconCamera, IconDeviceFloppy, IconUpload } from "@tabler/icons-react";
 import type { FetchError } from "ofetch";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,11 +40,19 @@ export default function ProfileIdentityCard() {
 
   const profile = profileQuery.data?.data;
   const [name, setName] = useState("");
+  const [isNameSeeded, setIsNameSeeded] = useState(false);
   const [nameError, setNameError] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [pictureError, setPictureError] = useState("");
 
-  const displayName = name || profile?.name || "";
+  // Seed the input from the server exactly once. After that the field owns its
+  // value, so clearing it with the keyboard stays cleared instead of being
+  // refilled by the fallback to `profile.name`.
+  useEffect(() => {
+    if (isNameSeeded || !profile) return;
+    setName(profile.name ?? "");
+    setIsNameSeeded(true);
+  }, [profile, isNameSeeded]);
 
   const handleNameChange = (value: string) => {
     setName(value);
@@ -58,7 +66,6 @@ export default function ProfileIdentityCard() {
       return;
     }
     if (trimmed === profile?.name) {
-      setName("");
       return;
     }
 
@@ -79,7 +86,7 @@ export default function ProfileIdentityCard() {
             title: "Name updated",
             description: "Your display name has been saved.",
           });
-          setName("");
+          setName(trimmed);
         },
         onError: (error: FetchError) => {
           triggerToast({
@@ -187,7 +194,7 @@ export default function ProfileIdentityCard() {
             <div className="flex gap-2">
               <Input
                 id="display-name"
-                value={displayName}
+                value={name}
                 placeholder={profile?.name ?? "Your name"}
                 onChange={(event) => handleNameChange(event.target.value)}
                 aria-invalid={Boolean(nameError)}

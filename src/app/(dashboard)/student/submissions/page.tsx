@@ -8,6 +8,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import {
+  DESCRIPTION_MAX_LENGTH,
+  DESCRIPTION_MIN_LENGTH,
+  PROJECT_NAME_MAX_LENGTH,
+  PROJECT_NAME_MIN_LENGTH,
+} from "@/schemas";
+
+const FIELD_GUIDE: ReadonlyArray<readonly [string, string]> = [
+  [
+    "Project name",
+    `${PROJECT_NAME_MIN_LENGTH}–${PROJECT_NAME_MAX_LENGTH} characters`,
+  ],
+  ["Repository URL", "Public source link"],
+  ["Live project URL", "Deployed link"],
+  [
+    "Project description",
+    `${DESCRIPTION_MIN_LENGTH}–${DESCRIPTION_MAX_LENGTH} characters`,
+  ],
+];
 
 export default function SubmissionPage() {
   return (
@@ -51,7 +71,7 @@ export default function SubmissionPage() {
               A few details help mentors give useful feedback.
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-5">
             <ul className="space-y-4 text-sm">
               {[
                 [
@@ -80,6 +100,27 @@ export default function SubmissionPage() {
                 </li>
               ))}
             </ul>
+
+            <Separator />
+
+            <div className="space-y-1">
+              <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                Field guide
+              </p>
+              <dl className="divide-y text-sm">
+                {FIELD_GUIDE.map(([term, spec]) => (
+                  <div
+                    key={term}
+                    className="flex items-baseline justify-between gap-3 py-2"
+                  >
+                    <dt className="font-medium">{term}</dt>
+                    <dd className="shrink-0 text-right text-xs text-muted-foreground">
+                      {spec}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           </CardContent>
         </Card>
       </div>
