@@ -1,6 +1,7 @@
 "use client";
 
 import { IconExternalLink, IconInbox } from "@tabler/icons-react";
+import { cn } from "cn";
 import TableSkeleton from "@/components/shared/TableSkeleton";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -53,56 +54,80 @@ export default function StudentSubmissionTable() {
   return (
     <Table>
       <TableHeader>
-        <TableRow>
-          <TableHead>Project</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Mentor feedback</TableHead>
-          <TableHead>Submitted</TableHead>
+        <TableRow className="border-b bg-muted/40 hover:bg-muted/40">
+          <TableHead className="h-11 px-4 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+            Project
+          </TableHead>
+          <TableHead className="h-11 px-4 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+            Status
+          </TableHead>
+          <TableHead className="h-11 px-4 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+            Mentor feedback
+          </TableHead>
+          <TableHead className="h-11 px-4 text-right text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+            Submitted
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {submissions.map((submission) => (
           <TableRow key={submission.id}>
-            <TableCell className="max-w-64">
+            <TableCell className="max-w-64 px-4 py-3.5 align-top">
               <p className="truncate font-medium">{submission.project_name}</p>
-              <div className="mt-1 flex gap-3 text-xs">
+              <div className="mt-2 flex flex-wrap gap-2 text-xs">
                 <a
                   href={submission.repo_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary"
+                  className="inline-flex items-center gap-1 rounded-md border bg-background px-2 py-0.5 font-medium text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
                 >
-                  Repository{" "}
+                  Repository
                   <IconExternalLink className="size-3" aria-hidden="true" />
                 </a>
                 <a
                   href={submission.live_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary"
+                  className="inline-flex items-center gap-1 rounded-md border bg-background px-2 py-0.5 font-medium text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
                 >
-                  Live demo{" "}
+                  Live demo
                   <IconExternalLink className="size-3" aria-hidden="true" />
                 </a>
               </div>
             </TableCell>
-            <TableCell>
+            <TableCell className="px-4 py-3.5 align-top">
               <Badge
                 variant="outline"
-                className={submissionStatusStyle[submission.status]}
+                className={cn(
+                  "gap-1.5",
+                  submissionStatusStyle[submission.status],
+                )}
               >
+                <span
+                  className="size-1.5 rounded-full bg-current"
+                  aria-hidden="true"
+                />
                 {formatSubmissionStatus(submission.status)}
               </Badge>
             </TableCell>
-            <TableCell className="max-w-md">
-              <p className="whitespace-pre-wrap text-sm leading-6 text-muted-foreground">
-                {submission.feedback ||
-                  (submission.status === "PENDING"
-                    ? "Awaiting mentor review."
-                    : "No feedback was provided.")}
-              </p>
+            <TableCell className="max-w-md px-4 py-3.5 align-top">
+              <div className="rounded-lg border bg-muted/30 px-3 py-2.5">
+                <p
+                  className={cn(
+                    "whitespace-pre-wrap text-sm leading-6",
+                    submission.feedback
+                      ? "text-foreground/90"
+                      : "text-muted-foreground italic",
+                  )}
+                >
+                  {submission.feedback ||
+                    (submission.status === "PENDING"
+                      ? "Awaiting mentor review."
+                      : "No feedback was provided.")}
+                </p>
+              </div>
             </TableCell>
-            <TableCell className="text-muted-foreground">
+            <TableCell className="px-4 py-3.5 text-right text-sm text-muted-foreground align-top tabular-nums">
               {new Date(submission.created_at).toLocaleDateString()}
             </TableCell>
           </TableRow>
