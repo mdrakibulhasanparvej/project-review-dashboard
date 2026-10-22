@@ -25,3 +25,19 @@ export interface UserProfile extends User {
 export interface UserProfileUpdatePayload {
   name?: string;
 }
+
+export interface UserQuery {
+  role?: Role;
+  user_status?: "ACTIVE" | "BAN";
+  searchTerm?: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface UserRoleUpdatePayload {
+  role: Role;
+}
+
+export interface UserStatusUpdatePayload {
+  is_active: boolean;
+}

@@ -9,6 +9,7 @@ export default function Logo() {
           alt="Project Review Dashboard logo"
           fill
           priority
+          sizes="40px"
           className="object-contain py-1"
         />
       </div>

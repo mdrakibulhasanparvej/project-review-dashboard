@@ -1,4 +1,4 @@
-import { IconChartBar, IconUsers } from "@tabler/icons-react";
+import { IconChartBar, IconUserCog, IconUsers } from "@tabler/icons-react";
 import type { Route } from "@/types";
 
 export const adminRoutes: Route[] = [
@@ -9,6 +9,11 @@ export const adminRoutes: Route[] = [
         title: "Platform overview",
         url: "/admin/overview",
         icon: IconChartBar,
+      },
+      {
+        title: "Users",
+        url: "/admin/users",
+        icon: IconUserCog,
       },
       {
         title: "Mentors",
